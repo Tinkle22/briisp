@@ -43,7 +43,7 @@ export default function Home() {
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="relative py-20 sm:py-32 overflow-hidden"
+        className="relative h-[60vh] sm:h-[80vh] overflow-hidden"
       >
         {/* Video Background */}
         <div className="absolute inset-0 z-0">
@@ -55,32 +55,11 @@ export default function Home() {
             className="object-cover w-full h-full"
           >
             <source
-              src="https://videos.pexels.com/video-files/9373137/9373137-hd_1920_1080_25fps.mp4"
+              src="b.mp4"
               type="video/mp4"
             />
           </video>
           <div className="absolute inset-0 bg-gradient-to-b from-background/10 to-background"></div>
-        </div>
-        <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8 min-h-96">
-          <div className="mx-auto max-w-2xl text-center">
-            <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
-              Transform Your Future with Professional Education
-            </h1>
-            <p className="mt-6 text-lg leading-8 text-muted-foreground">
-              Join our academy to gain the skills and knowledge needed to excel
-              in your career. Learn from industry experts and get certified in
-              your field of interest.
-            </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
-              <Button
-                size="lg"
-                className="bg-amber-600 hover:bg-amber-700 transition-all duration-300 hover:scale-105"
-                asChild
-              >
-                <Link href="/courses">Explore Courses</Link>
-              </Button>
-            </div>
-          </div>
         </div>
       </motion.section>
 
