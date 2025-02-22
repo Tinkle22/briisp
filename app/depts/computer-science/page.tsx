@@ -1,64 +1,38 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ChevronDown, Calendar, Users, Trophy, Code, Network, Shield, Smartphone, Gamepad, Database } from 'lucide-react';
 import Link from 'next/link';
 
-const courses = [
-  {
-    id: '1',
-    name: 'Mobile Programming',
-    description: 'Learn to develop mobile applications for iOS and Android platforms.',
-    icon: Smartphone,
-    duration: '6 months',
-    level: 'Intermediate',
-  },
-  {
-    id: '2',
-    name: 'Database Management',
-    description: 'Master database design, implementation, and administration.',
-    icon: Database,
-    duration: '4 months',
-    level: 'Intermediate',
-  },
-  {
-    id: '3',
-    name: 'Programming Languages',
-    description: 'Comprehensive study of modern programming languages and paradigms.',
-    icon: Code,
-    duration: '8 months',
-    level: 'Beginner to Advanced',
-  },
-  {
-    id: '4',
-    name: 'Computer Networking',
-    description: 'Understanding network protocols, architecture, and security.',
-    icon: Network,
-    duration: '6 months',
-    level: 'Intermediate',
-  },
-  {
-    id: '5',
-    name: 'Cyber Security',
-    description: 'Learn to protect systems and networks from cyber threats.',
-    icon: Shield,
-    duration: '6 months',
-    level: 'Advanced',
-  },
-  {
-    id: '6',
-    name: 'Game Development',
-    description: 'Create interactive games using modern game engines and tools.',
-    icon: Gamepad,
-    duration: '8 months',
-    level: 'Intermediate',
-  }
-];
+// Define the Course type
+type Course = {
+  course_id: number;
+  name: string;
+  description: string;
+  duration: string;
+  level: string; // Add other properties as needed
+  // ... other properties ...
+};
 
-export default function ComputerSciencePage() {
-  const [expandedCourse, setExpandedCourse] = useState<string | null>(null);
+const ComputerSciencePage = () => {
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [expandedCourse, setExpandedCourse] = useState<number | null>(null);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch('/api/getCourses');
+        const data = await response.json();
+        setCourses(data);
+      } catch (error) {
+        console.error('Error fetching courses:', error);
+      }
+    };
+
+    fetchCourses();
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -131,9 +105,9 @@ export default function ComputerSciencePage() {
           <h2 className="text-2xl font-bold mb-8">Our Courses</h2>
           <div className="grid grid-cols-1 gap-4">
             {courses.map((course) => (
-              <Card key={course.id} className="overflow-hidden">
+              <Card key={course.course_id} className="overflow-hidden">
                 <button
-                  onClick={() => setExpandedCourse(expandedCourse === course.id ? null : course.id)}
+                  onClick={() => setExpandedCourse(expandedCourse === course.course_id ? null : course.course_id)}
                   className="w-full"
                 >
                   <div className="p-6 flex items-center justify-between">
@@ -148,12 +122,12 @@ export default function ComputerSciencePage() {
                     </div>
                     <ChevronDown
                       className={`h-5 w-5 transition-transform ${
-                        expandedCourse === course.id ? 'rotate-180' : ''
+                        expandedCourse === course.course_id ? 'rotate-180' : ''
                       }`}
                     />
                   </div>
                 </button>
-                {expandedCourse === course.id && (
+                {expandedCourse === course.course_id && (
                   <div className="px-6 pb-6 pt-2 border-t">
                     <div className="space-y-4">
                       <div className="grid grid-cols-2 gap-4">
@@ -167,7 +141,7 @@ export default function ComputerSciencePage() {
                         </div>
                       </div>
                       <Button className="w-full bg-amber-600 hover:bg-amber-700" asChild>
-                        <Link href={`/courses/${course.id}`}>Learn More</Link>
+                        <Link href={`/courses/${course.course_id}`}>Learn More</Link>
                       </Button>
                     </div>
                   </div>
@@ -192,4 +166,6 @@ export default function ComputerSciencePage() {
       </div>
     </div>
   );
-}
+};
+
+export default ComputerSciencePage;
